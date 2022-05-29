@@ -60,6 +60,8 @@ public class CouponCustomerServiceImpl  implements CouponCustomerService {
             throw new IllegalArgumentException("template is unavailable");
         }
 
+        //test-branch
+
         //领取数目有限
         Long count = couponDao.countByUserIdAndTemplateId(request.getUserId(), request.getCouponTemplateId());
         if (count > templateInfo.getRule().getLimitation()) {
