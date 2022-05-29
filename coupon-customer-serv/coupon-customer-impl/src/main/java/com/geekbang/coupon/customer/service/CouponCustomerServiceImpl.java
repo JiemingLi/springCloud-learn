@@ -47,7 +47,6 @@ public class CouponCustomerServiceImpl  implements CouponCustomerService {
                 .retrieve()
                 .bodyToMono(CouponTemplateInfo.class)
                 .block();
-//        CouponTemplateInfo templateInfo = couponTemplateService.loadTemplateInfo(request.getCouponTemplateId());
         if (templateInfo == null) {
             log.error("invalid template id={}", request.getCouponTemplateId());
             throw new IllegalArgumentException("Invalid template id");
