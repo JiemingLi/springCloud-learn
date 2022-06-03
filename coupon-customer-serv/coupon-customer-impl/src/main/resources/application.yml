@@ -71,4 +71,14 @@ spring:
 logging:
   level:
     com.broadview.coupon: debug
-
+    com.geekbang.coupon.customer.feign.TemplateService: debug
+    com.geekbang.coupon.customer.feign.CalculationService: debug
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 1000
+        readTimeout: 2000
+      coupon-template-serv:
+        connectTimeout: 1000
+        readTimeout: 1500

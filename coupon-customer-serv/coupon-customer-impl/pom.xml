@@ -17,6 +17,11 @@
     </properties>
 
     <dependencies>
+        <!-- OpenFeign组件 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
         <!-- Nacos服务发现组件 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
