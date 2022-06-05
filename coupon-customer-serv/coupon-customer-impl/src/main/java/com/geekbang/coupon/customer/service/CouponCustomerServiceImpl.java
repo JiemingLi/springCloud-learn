@@ -33,10 +33,10 @@ import static com.geekbang.coupon.customer.constant.Constant.TRAFFIC_VERSION;
 @Slf4j
 @Service
 public class CouponCustomerServiceImpl  implements CouponCustomerService {
-    @Autowired
+    @Resource
     private CouponDao couponDao;
 
-    @Autowired
+    @Resource
     private WebClient.Builder webClientBuilder;
 
     @Resource
