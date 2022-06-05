@@ -68,6 +68,10 @@ spring:
         watch:
           enabled: true
         watch-delay: 30000
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: localhost:8080
 
 logging:
   level:

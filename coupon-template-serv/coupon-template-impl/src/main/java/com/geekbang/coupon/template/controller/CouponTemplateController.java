@@ -1,10 +1,13 @@
 package com.geekbang.coupon.template.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import com.geekbang.coupon.template.api.beans.CouponTemplateInfo;
 import com.geekbang.coupon.template.api.beans.PagedCouponTemplateInfo;
 import com.geekbang.coupon.template.api.beans.TemplateSearchParams;
 import com.geekbang.coupon.template.service.intf.CouponTemplateService;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,21 +36,40 @@ public class CouponTemplateController {
         return couponTemplateService.cloneTemplate(templateId);
     }
 
-
-
     // 读取优惠券
     @GetMapping("/getTemplate")
+    @SentinelResource(value = "getTemplate", blockHandler = "getTemplate_block")
     public CouponTemplateInfo getTemplate(@RequestParam("id") Long id){
         log.info("Load template, id={}", id);
         return couponTemplateService.loadTemplateInfo(id);
     }
 
+    // 流控降级的方法
+    public CouponTemplateInfo getTemplate_block(
+            Long id, BlockException e) {
+        log.info("getTemplate 接口被限流");
+        CouponTemplateInfo couponTemplateInfo = new CouponTemplateInfo();
+        couponTemplateInfo.setAvailable(false);
+        couponTemplateInfo.setName("无效name");
+        couponTemplateInfo.setId(id);
+        return couponTemplateInfo;
+    }
+
     // 批量获取
     @GetMapping("/getBatch")
+    @SentinelResource(value = "getTemplateInBatch", blockHandler = "getTemplateInBatch_block")
     public Map<Long, CouponTemplateInfo> getTemplateInBatch(@RequestParam("ids") Collection<Long> ids) {
         log.info("getTemplateInBatch: {}", JSON.toJSONString(ids));
         return couponTemplateService.getTemplateInfoMap(ids);
     }
+
+    // 流控降级的方法
+    public Map<Long, CouponTemplateInfo> getTemplateInBatch_block(
+            Collection<Long> ids, BlockException e) {
+        log.info("接口被限流");
+        return Maps.newHashMap();
+    }
+
 
     // 搜索模板
     @PostMapping("/search")
